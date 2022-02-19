@@ -21,6 +21,8 @@ const Tile = React.memo(function Tile({
   const isExpanded = activeTileUrl === item.url
   const isVideo = item.url.includes('.mp4') || item.url.includes('.mov')
   const [isFullSizeLoaded, setFullSizeLoaded] = useState(isVideo ? true : false)
+  const [showSecondaryImage, setShowSecondaryImage] = useState(false)
+  const minSecondaryWindowWidth = 600 // Minimum window width to enable secondary-image-on-hover functionality
 
   const { calcWidth, calcHeight, offsetX, offsetY } = getTileMeasurements({ item, windowHeight, settings, containerWidth, containerOffsetTop })
 
@@ -41,6 +43,8 @@ const Tile = React.memo(function Tile({
     <animated.button
       className={`${styles.pigBtn}${isExpanded ? ` ${styles.pigBtnActive}` : ''} pig-btn`}
       onClick={() => handleClick(item)}
+      onMouseEnter={() => {if (item.secondaryUrl && window.innerWidth > minSecondaryWindowWidth) {setShowSecondaryImage(true)}}}
+      onMouseLeave={() => {setShowSecondaryImage(false)}}
       style={{
         outline: isExpanded ? `${settings.gridGap}px solid ${settings.bgColor}` : null,
         backgroundColor: item.dominantColor,
@@ -62,12 +66,24 @@ const Tile = React.memo(function Tile({
           alt=""
         />
       }
-      
+
       {(scrollSpeed === 'slow' ) && !isVideo &&
-        // grid image
+        // full sized thumbnail
         <img
           className={`${styles.pigImg} ${styles.pigFull}${isFullSizeLoaded ? ` ${styles.pigFullLoaded}` : ''}`}
+          style={{'opacity': (showSecondaryImage ? '0' : '1')}}
           src={getUrl(item.url, getImageHeight(containerWidth))}
+          alt=""
+          onLoad={() => setFullSizeLoaded(true)}
+        />
+      }
+
+      {(scrollSpeed === 'slow' ) && !isVideo && (item.secondaryUrl !== undefined) && window.innerWidth > minSecondaryWindowWidth &&
+        // optional secondary image that appears on hover
+        <img
+          className={`${styles.pigImg} ${styles.pigFull}${isFullSizeLoaded ? ` ${styles.pigFullLoaded}` : ''}`}
+          style={{'opacity': (showSecondaryImage ? '1' : '0')}}
+          src={getUrl(item.secondaryUrl, getImageHeight(containerWidth))}
           alt=""
           onLoad={() => setFullSizeLoaded(true)}
         />

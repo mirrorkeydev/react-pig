@@ -48,10 +48,10 @@ const Tile = React.memo(function Tile({
       style={{
         outline: isExpanded ? `${settings.gridGap}px solid ${settings.bgColor}` : null,
         backgroundColor: item.dominantColor,
-        zIndex: zIndex.interpolate(t => Math.round(t)),
-        width: width.interpolate(t => t),
-        height: height.interpolate(t => t),
-        transform: transform.interpolate(t => t)
+        zIndex: zIndex.to(t => Math.round(t)),
+        width: width.to(t => t),
+        height: height.to(t => t),
+        transform: transform.to(t => t)
       }}
     >
 

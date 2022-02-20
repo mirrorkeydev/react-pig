@@ -1,9 +1,12 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/env", {
       "modules": false
     }],
-    "stage-0",
-    "react"
+    "@babel/react"
+  ],
+  "plugins": [
+    // Stage 0
+    "@babel/plugin-proposal-function-bind"
   ]
 }

@@ -16,7 +16,7 @@ import getScrollSpeed from './utils/getScrollSpeed'
 import styles from './styles.css'
 
 
-export default class Pig extends Component {
+export class Pig extends Component {
   constructor(props) {
     super(props)
 

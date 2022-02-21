@@ -5,7 +5,7 @@
     "es6": true
   },
   "plugins": [
-    "react"
+    "react" // remove this if you get https://github.com/facebook/create-react-app/issues/11825
   ],
   "parserOptions": {
     "sourceType": "module"
